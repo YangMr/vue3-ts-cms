@@ -16,7 +16,9 @@ export default defineComponent({
     HelloWorld
   },
   methods: {
-    test() {}
+    test() {
+      console.log('123')
+    }
   }
 })
 </script>
