@@ -1,6 +1,7 @@
 <template>
-  <router-view />
+  <div>手机号登录</div>
 </template>
 
-<style lang="less"></style>
 <script setup lang="ts"></script>
+
+<style scoped></style>
