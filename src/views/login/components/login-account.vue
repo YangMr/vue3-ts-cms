@@ -14,6 +14,9 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import type { ElForm } from 'element-plus'
+import { useStore } from 'vuex'
+const store = useStore()
+
 // 导入缓存文件
 import localCache from '@/utils/cache'
 
@@ -48,6 +51,7 @@ const loginAction = (isKeepPassword: boolean) => {
       }
 
       // 2. 实现登录
+      store.dispatch('loginModule/accountLoginAction', { ...account })
     }
   })
 }

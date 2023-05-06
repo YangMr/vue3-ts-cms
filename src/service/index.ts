@@ -1,13 +1,14 @@
 import { BASE_URL, TIMEOUT } from '@/service/request/config'
 import Request from '@/service/request'
-
+import localCache from '@/utils/cache'
 const service = new Request({
   baseURL: BASE_URL,
   timeout: TIMEOUT,
   interceptors: {
     requestInterceptor: (config) => {
-      console.log('局部请求成功拦截器')
-      config.headers.a = '123'
+      const token = localCache.getCache('token')
+      if (token) config.headers.Authorization = 'Bearer ' + token
+
       return config
     },
     requestInterceptorCatch: (error) => {

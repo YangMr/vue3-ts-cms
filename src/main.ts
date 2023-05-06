@@ -8,6 +8,9 @@ import { globalRegister } from './global'
 import 'normalize.css'
 import './assets/css/index.less'
 
+// 引入页面权限
+import './premission'
+
 const app = createApp(App)
 
 app.use(globalRegister)

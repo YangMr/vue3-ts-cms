@@ -46,7 +46,7 @@ class Request {
       function (response) {
         loading.close()
         console.log('全局响应成功拦截器')
-        return response
+        return response.data
       },
       function (error) {
         loading.close()
