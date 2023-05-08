@@ -51,7 +51,7 @@ const loginModule: Module<ILoginState, IRootState> = {
         localCache.setCache('userInfo', userInfo)
 
         // 获取当前用户拥有的菜单数据
-        const userMenusResult = await requestUserMenusByRoleId(id)
+        const userMenusResult = await requestUserMenusByRoleId(userInfo.role.id)
         const userMenus = userMenusResult.data
         commit('changeUserMenus', userMenus)
         localCache.setCache('userMenus', userMenus)
