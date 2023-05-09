@@ -9,7 +9,7 @@
       active-text-color="#fff"
       background-color="#001529"
       class="el-menu-vertical"
-      default-active="62"
+      :default-active="defaultActive"
       :collapse="isCollapse"
       unique-opened
       text-color="rgb(183, 189, 195)"
@@ -40,11 +40,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps } from 'vue'
+import { computed, defineProps, ref } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { pathMapToMenu } from '@/utils/map-menus'
 const store = useStore()
 const router = useRouter()
+const route = useRoute()
 
 // 1. 拿到vuex中菜单数据
 const userMenus = computed(() => store.state.loginModule.userMenus)
@@ -56,6 +58,14 @@ defineProps({
     default: false
   }
 })
+
+const menus = computed(() => {
+  const currentPath = route.path
+  const menus = pathMapToMenu(userMenus.value, currentPath)
+  return menus.id
+})
+
+const defaultActive = ref<string>(menus.value.toString())
 
 // 点击菜单进行跳转
 const handleMenuItemClick = (subMenu: any) => {

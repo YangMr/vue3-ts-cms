@@ -4,6 +4,10 @@
       <Fold v-if="isFold" />
       <Expand v-else />
     </el-icon>
+    <div class="content">
+      <div>面包屑导航</div>
+      <UserInfo />
+    </div>
   </div>
 </template>
 
@@ -30,6 +34,14 @@ const handleMenuIconClick = () => {
 
   .menu-icon {
     cursor: pointer;
+  }
+
+  .content {
+    display: flex;
+    flex: 1;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
   }
 }
 </style>

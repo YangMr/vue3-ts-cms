@@ -9,6 +9,7 @@ import {
 import { IAccount } from '@/api/login/type'
 import localCache from '@/utils/cache'
 import router from '@/router'
+import { mapMenuToRoutes } from '@/utils/map-menus'
 
 console.log('router', router)
 
@@ -17,9 +18,12 @@ console.log('router', router)
 const loginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
   state: {
-    token: localCache.getCache('token') ?? '',
-    userInfo: localCache.getCache('userInfo') ?? {},
-    userMenus: localCache.getCache('userMenus') ?? []
+    token: '',
+    userInfo: {},
+    userMenus: []
+    // token: localCache.getCache('token') ?? '',
+    // userInfo: localCache.getCache('userInfo') ?? {},
+    // userMenus: localCache.getCache('userMenus') ?? []
   },
   getters: {},
   mutations: {
@@ -31,6 +35,12 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     changeUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
+
+      const routes = mapMenuToRoutes(userMenus)
+
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
     }
   },
   actions: {
@@ -60,6 +70,22 @@ const loginModule: Module<ILoginState, IRootState> = {
         await router.push('/')
       } catch (e) {
         console.log(e)
+      }
+    },
+    loadLocalLogin({ commit }) {
+      const token = localCache.getCache('token')
+      if (token) {
+        commit('changeToken', token)
+      }
+
+      const userInfo = localCache.getCache('userInfo')
+      if (userInfo) {
+        commit('changeUserInfo', userInfo)
+      }
+
+      const userMenus = localCache.getCache('userMenus')
+      if (userMenus) {
+        commit('changeUserMenus', userMenus)
       }
     }
   }
