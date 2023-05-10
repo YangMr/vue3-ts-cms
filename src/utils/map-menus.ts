@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
+import { IBreadcrumb } from '@/baseUI/breadcrumb/types'
 
 // 页面权限   --- >   没有token 不能访问登录以后的页面
 // 菜单权限   --- >   不同的用户登录展示不同的菜单
@@ -57,12 +58,30 @@ export function mapMenuToRoutes(userMenus: RouteRecordRaw[]): RouteRecordRaw[] {
   return routes
 }
 
+export function pathMapBreadcrumbs(
+  userMenus: any[],
+  currentPath: string
+): IBreadcrumb[] {
+  const breadcrumbs: IBreadcrumb[] = []
+  pathMapToMenu(userMenus, currentPath, breadcrumbs)
+  return breadcrumbs
+}
+
 // 匹配出当前路由对应的菜单
-export function pathMapToMenu(userMenus: any[], currentPath: string): any {
+export function pathMapToMenu(
+  userMenus: any[],
+  currentPath: string,
+  breadcrumbs?: IBreadcrumb[]
+): any {
+  // userMenus 所有的菜单数据
+  // currentPath 当前选中的菜单路径
   for (const menu of userMenus) {
     if (menu.type === 1) {
       const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
+
       if (findMenu) {
+        breadcrumbs?.push({ name: menu.name })
+        breadcrumbs?.push({ name: findMenu.name })
         return findMenu
       }
     } else if (menu.type === 2 && menu.url === currentPath) {

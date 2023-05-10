@@ -9,7 +9,9 @@
           <NavHeader @foldChange="handleFoldChange" />
         </el-header>
         <el-main class="page-main">
-          <router-view></router-view>
+          <div class="page-info">
+            <router-view></router-view>
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -54,6 +56,11 @@ const handleFoldChange = (isFold: boolean) => {
   .page-main {
     background: #f0f2f5;
     height: calc(100% - 48px);
+
+    .page-info {
+      background: #fff;
+      border-radius: 5px;
+    }
   }
 
   .page-aside {
