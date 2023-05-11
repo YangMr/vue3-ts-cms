@@ -1,6 +1,6 @@
 import { IForm } from '@/baseUI/form'
 
-export const searchFormConfig: IForm = {
+export const goodsSearchFormConfig: IForm = {
   labelWidth: '120px',
   itemStyle: { padding: '10px 40px' },
   colLayout: { span: 8 },
@@ -8,20 +8,14 @@ export const searchFormConfig: IForm = {
     {
       field: 'name',
       type: 'input',
-      label: '用户名',
-      placeholder: '请输入用户名'
+      label: '商品名称',
+      placeholder: '请输入商品名称'
     },
     {
-      field: 'realname',
+      field: 'address',
       type: 'input',
-      label: '真实姓名',
-      placeholder: '请输入真实姓名'
-    },
-    {
-      field: 'cellphone',
-      type: 'input',
-      label: '手机号码',
-      placeholder: '请输入手机号码'
+      label: '商品地址',
+      placeholder: '请输入商品地址'
     },
     {
       field: 'enable',
@@ -30,11 +24,11 @@ export const searchFormConfig: IForm = {
       placeholder: '请选择状态',
       options: [
         {
-          label: '启用',
+          label: '可用',
           value: 1
         },
         {
-          label: '禁用',
+          label: '下架',
           value: 0
         }
       ]

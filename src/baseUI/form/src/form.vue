@@ -1,10 +1,18 @@
 <template>
   <div class="form">
+    <div class="header">
+      <slot name="header"></slot>
+    </div>
     <el-form ref="form" :label-width="labelWidth">
       <el-row>
         <template v-for="(item, index) in formItems" :key="index">
           <el-col v-bind="colLayout">
-            <el-form-item :label="item.label" :style="itemStyle">
+            <el-form-item
+              :label="item.label"
+              :style="itemStyle"
+              :rules="item.rules"
+              :prop="item.field"
+            >
               <template
                 v-if="item.type === 'input' || item.type === 'password'"
               >
@@ -12,22 +20,29 @@
                   :type="item.type"
                   :show-password="item.type === 'password'"
                   :placeholder="item.placeholder"
+                  v-bind="item.otherOptions"
+                  v-model="formData[item.field]"
                 ></el-input>
               </template>
               <template v-else-if="item.type === 'select'">
-                <el-select style="width: 100%" :placeholder="item.placeholder">
+                <el-select
+                  v-model="formData[item.field]"
+                  style="width: 100%"
+                  :placeholder="item.placeholder"
+                >
                   <el-option
                     v-for="(option, index) in item.options"
                     :key="index"
                     :label="option.label"
                     :value="option.value"
+                    v-bind="item.otherOptions"
                   ></el-option>
                 </el-select>
               </template>
               <template v-else-if="item.type === 'datepicker'">
                 <el-date-picker
+                  v-model="formData[item.field]"
                   style="width: 100%"
-                  type="daterange"
                   v-bind="item.otherOptions"
                 ></el-date-picker>
               </template>
@@ -36,14 +51,21 @@
         </template>
       </el-row>
     </el-form>
+    <div class="footer">
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, PropType } from 'vue'
+import { defineProps, defineEmits, PropType, ref, watch } from 'vue'
 import { IFormItems } from '@/baseUI/form/types'
 
-defineProps({
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    required: true
+  },
   formItems: {
     type: Array as PropType<IFormItems[]>,
     default: () => []
@@ -67,6 +89,26 @@ defineProps({
     })
   }
 })
+// 深拷贝 浅拷贝
+
+const formData = ref({ ...props.modelValue })
+
+const emits = defineEmits(['update:modelValue'])
+watch(
+  formData,
+  (newValue) => {
+    console.log('newValue', newValue)
+    emits('update:modelValue', newValue)
+  },
+  {
+    deep: true
+  }
+)
+console.log('formData', formData)
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.form {
+  padding-top: 22px;
+}
+</style>

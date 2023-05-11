@@ -1,18 +1,11 @@
 <template>
   <div class="department">
-    <h2>department</h2>
+    <PageSearch :searchFormConfig="departmentSearchFormConfig"></PageSearch>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'department',
-  setup() {
-    return {}
-  }
-})
+<script lang="ts" setup>
+import { departmentSearchFormConfig } from './config/departmentForm.config'
 </script>
 
 <style scoped></style>

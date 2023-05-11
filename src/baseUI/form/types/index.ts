@@ -6,6 +6,7 @@ export interface IFormItems {
   options?: any
   otherOptions?: any
   rules?: any[]
+  field: string
 }
 
 export interface IForm {

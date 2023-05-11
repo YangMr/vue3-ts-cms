@@ -1,16 +1,19 @@
 <template>
   <div class="user">
-    <div class="search">
-      <BaseForm v-bind="searchFormConfig" />
-    </div>
-
+    <PageSearch :searchFormConfig="searchFormConfig"></PageSearch>
     <div class="content"></div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import BaseForm, { IForm } from '@/baseUI/form'
+// import BaseForm, { IForm } from '@/baseUI/form'
 import { searchFormConfig } from './config/form.config'
+// import { ref } from 'vue'
+
+// const handleSearch = () => {
+//   console.log('id=>', formData.value.id)
+// }
+
 // import { IFormItems } from '@/baseUI/form/types'
 
 // const labelWidth = '120px'
@@ -70,4 +73,4 @@ import { searchFormConfig } from './config/form.config'
 // ]
 </script>
 
-<style scoped></style>
+<style scoped lang="less"></style>
