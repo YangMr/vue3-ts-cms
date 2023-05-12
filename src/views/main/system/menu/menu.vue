@@ -1,18 +1,18 @@
 <template>
   <div class="menu">
-    <h2>menu</h2>
+    <div class="content">
+      <PageContent pageUrl="/menu" :contentConfig="contentConfig"></PageContent>
+    </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'menu',
-  setup() {
-    return {}
-  }
-})
+<script lang="ts" setup>
+import { contentConfig } from './config/content.config'
 </script>
 
-<style scoped></style>
+<style scoped>
+.content {
+  padding: 20px;
+  border-top: 20px solid #f5f5f5;
+}
+</style>

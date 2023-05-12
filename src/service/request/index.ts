@@ -56,7 +56,7 @@ class Request {
     )
   }
 
-  request<T>(config: RequestConfig): Promise<T> {
+  request<T = any>(config: RequestConfig): Promise<T> {
     // 单个请求拦截器
     if (config?.interceptors?.requestInterceptor) {
       this.instance.interceptors.request.use(
@@ -92,19 +92,19 @@ class Request {
     })
   }
 
-  get<T>(config: RequestConfig): Promise<T> {
+  get<T = any>(config: RequestConfig): Promise<T> {
     return this.request({ ...config, method: 'GET' })
   }
 
-  post<T>(config: RequestConfig): Promise<T> {
+  post<T = any>(config: RequestConfig): Promise<T> {
     return this.request({ ...config, method: 'POST' })
   }
 
-  put<T>(config: RequestConfig): Promise<T> {
+  put<T = any>(config: RequestConfig): Promise<T> {
     return this.request({ ...config, method: 'PUT' })
   }
 
-  delete<T>(config: RequestConfig): Promise<T> {
+  delete<T = any>(config: RequestConfig): Promise<T> {
     return this.request({ ...config, method: 'DELETE' })
   }
 }
