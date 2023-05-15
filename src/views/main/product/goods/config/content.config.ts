@@ -7,7 +7,8 @@ export const contentConfig = {
       label: '商品名称',
       width: '100',
       align: 'center',
-      slotName: 'productName'
+      showOverflowTooltip: true,
+      slotName: 'pname'
     },
     {
       prop: 'oldPrice',
@@ -26,7 +27,8 @@ export const contentConfig = {
       label: '商品描述',
       width: '100',
       align: 'center',
-      slotName: 'productDescription'
+      showOverflowTooltip: true,
+      slotName: 'desc'
     },
     {
       prop: 'status',

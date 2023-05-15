@@ -1,9 +1,11 @@
 <template>
   <div class="page-content">
     <BaseTable
-      :listData="userList"
+      :listCount="listCount"
+      :listData="listData"
       :title="titleType[pageUrl]"
       v-bind="contentConfig"
+      v-model:page="pageInfo"
     >
       <!--      <template #header>-->
       <!--        <h2>用户列表</h2>-->
@@ -33,38 +35,49 @@
           >删除</el-button
         >
       </template>
-      <template #productName="scope">
-        <div class="product-name">
-          <el-tooltip
-            effect="dark"
-            :content="scope.row.name"
-            placement="top-start"
-          >
-            {{ scope.row.name }}
-          </el-tooltip>
-        </div>
+
+      <template
+        #[item.slotName]="scope"
+        v-for="(item, index) in otherPropSlots"
+        :key="index"
+      >
+        <template v-if="item.slotName">
+          <slot :name="item.slotName" :row="scope.row"></slot>
+        </template>
       </template>
-      <template #productDescription="scope">
-        <div class="product-name">
-          <el-tooltip
-            effect="dark"
-            :content="scope.row.desc"
-            placement="top-start"
-          >
-            {{ scope.row.desc }}
-          </el-tooltip>
-        </div>
-      </template>
-      <template #img="scope">
-        <img :src="scope.row.imgUrl" width="50" height="50" alt="img" />
-      </template>
+
+      <!--            <template #productName="scope">-->
+      <!--              <div class="product-name">-->
+      <!--                <el-tooltip-->
+      <!--                  effect="dark"-->
+      <!--                  :content="scope.row.name"-->
+      <!--                  placement="top-start"-->
+      <!--                >-->
+      <!--                  {{ scope.row.name }}-->
+      <!--                </el-tooltip>-->
+      <!--              </div>-->
+      <!--            </template>-->
+      <!--      <template #productDescription="scope">-->
+      <!--        <div class="product-name">-->
+      <!--          <el-tooltip-->
+      <!--            effect="dark"-->
+      <!--            :content="scope.row.desc"-->
+      <!--            placement="top-start"-->
+      <!--          >-->
+      <!--            {{ scope.row.desc }}-->
+      <!--          </el-tooltip>-->
+      <!--        </div>-->
+      <!--      </template>-->
+      <!--            <template #img="scope">-->
+      <!--              <img :src="scope.row.imgUrl" width="50" height="50" alt="img" />-->
+      <!--            </template>-->
     </BaseTable>
   </div>
 </template>
 
 <script setup lang="ts">
 import BaseTable from '@/baseUI/table'
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, defineExpose, watch } from 'vue'
 import { getPageListData } from '@/api/main/system/system'
 
 const props = defineProps({
@@ -87,41 +100,63 @@ const titleType = {
   '/goods': '商品列表'
 }
 
+const pageInfo = ref({ currentPage: 1, pageSize: 10 })
+watch(
+  () => pageInfo,
+  () => {
+    console.log('pageInfo==>', pageInfo.value.currentPage)
+    pageParams.queryInfo.offset = (pageInfo.value.currentPage - 1) * 10
+    pageParams.queryInfo.size = pageInfo.value.pageSize
+    getList()
+  },
+  {
+    deep: true
+  }
+)
+
+const otherPropSlots = props.contentConfig?.propList?.filter((item: any) => {
+  if (item.slotName === 'status') return false
+  if (item.slotName === 'createAt') return false
+  if (item.slotName === 'updateAt') return false
+  if (item.slotName === 'handles') return false
+
+  return true
+})
+
+console.log('otherPropSlots=>', otherPropSlots)
+
 const pageParams = {
   pageUrl: props.pageUrl + '/list',
   queryInfo: {
+    // offset 页码  1 0 - 10 2 10- 20 20 -30
     offset: 0,
     size: 10
   }
 }
 
-const userList = ref<any[]>([])
-const userCount = ref<number>(0)
+const listData = ref<any[]>([])
+const listCount = ref<number>(0)
 
 // 获取用户列表
-const getUserList = async () => {
+const getList = async (form?: any) => {
   try {
-    const pageResult = await getPageListData(
-      pageParams.pageUrl,
-      pageParams.queryInfo
-    )
+    const pageResult = await getPageListData(pageParams.pageUrl, {
+      ...pageParams.queryInfo,
+      ...form
+    })
 
-    console.log('pageResult', pageResult)
     const { list, totalCount } = pageResult.data
-    userList.value = list
-    userCount.value = totalCount
+    listData.value = list
+    listCount.value = totalCount
   } catch (e) {
     console.log(e)
   }
 }
-getUserList()
+getList()
+
+defineExpose({
+  getList
+})
 </script>
 
-<style scoped>
-.product-name {
-  width: 80px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-</style>
+<style scoped></style>

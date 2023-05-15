@@ -11,7 +11,7 @@
       </div>
     </div>
     <el-table
-      row-key="id"
+      v-bind="childrenProps"
       @selection-change="handleSelectionChange"
       :data="listData"
       border
@@ -49,12 +49,14 @@
         </el-table-column>
       </template>
     </el-table>
-    <div class="footer">
+    <div class="footer" v-if="showFooter">
       <slot name="footer">
         <el-pagination
-          :page-sizes="[100, 200, 300, 400]"
+          :page-sizes="[10, 20, 50, 100]"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
+          :total="listCount"
+          :current-page="page.currentPage"
+          :page-size="page.pageSize"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />
@@ -65,10 +67,18 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue'
-defineProps({
+const props = defineProps({
   listData: {
     type: Array,
     required: true
+  },
+  listCount: {
+    type: Number,
+    default: 0
+  },
+  page: {
+    type: Object,
+    default: () => ({ currentPage: 1, pageSize: 10 })
   },
   propList: {
     type: Array,
@@ -86,15 +96,32 @@ defineProps({
     type: Boolean,
     default: false
   },
+  childrenProps: {
+    type: Object,
+    default: () => ({})
+  },
   title: {
     type: String,
     default: ''
+  },
+  showFooter: {
+    type: Boolean,
+    default: true
   }
 })
 
-const emits = defineEmits(['selectionChange'])
+const emits = defineEmits(['selectionChange', 'update:page'])
 const handleSelectionChange = (data: any) => {
   emits('selectionChange', data)
+}
+
+const handleCurrentChange = (currentPage: number | string) => {
+  console.log('page=>', currentPage)
+  emits('update:page', { ...props.page, currentPage })
+}
+const handleSizeChange = (pageSize: number | string) => {
+  console.log('size=>', pageSize)
+  emits('update:page', { ...props.page, pageSize })
 }
 </script>
 

@@ -1,6 +1,7 @@
 export const contentConfig = {
   // showIndexColumn: true,
   // showSelectionColumn: true,
+  showFooter: false,
   propList: [
     {
       prop: 'name',
@@ -56,5 +57,9 @@ export const contentConfig = {
       slotName: 'handles',
       'min-width': '150'
     }
-  ]
+  ],
+  childrenProps: {
+    rowKey: 'id'
+    // treeProps: { children: 'children', hasChildren: 'hasChildren' }
+  }
 }

@@ -2,10 +2,11 @@
   <div class="goods">
     <PageSearch :search-form-config="goodsSearchFormConfig"></PageSearch>
     <div class="content">
-      <PageContent
-        pageUrl="/goods"
-        :contentConfig="contentConfig"
-      ></PageContent>
+      <PageContent pageUrl="/goods" :contentConfig="contentConfig">
+        <template #img="scope">
+          <img :src="scope.row.imgUrl" width="50" height="50" alt="img" />
+        </template>
+      </PageContent>
     </div>
   </div>
 </template>
