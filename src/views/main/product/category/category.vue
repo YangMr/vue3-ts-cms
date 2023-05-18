@@ -1,8 +1,13 @@
 <template>
   <div class="category">
-    <PageSearch :search-form-config="categorySearchFormConfig"></PageSearch>
+    <PageSearch
+      @reset-btn-click="handleResetClick"
+      @query-btn-click="handleQueryClick"
+      :search-form-config="categorySearchFormConfig"
+    ></PageSearch>
     <div class="content">
       <PageContent
+        ref="pageContentRef"
         pageUrl="/category"
         :contentConfig="contentConfig"
       ></PageContent>
@@ -13,6 +18,9 @@
 <script lang="ts" setup>
 import { categorySearchFormConfig } from './config/categoryForm.config'
 import { contentConfig } from './config/content.config'
+import { usePageSearch } from '@/hooks/usePageSearch'
+
+const { pageContentRef, handleResetClick, handleQueryClick } = usePageSearch()
 </script>
 
 <style scoped>

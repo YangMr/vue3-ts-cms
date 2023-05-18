@@ -11,7 +11,7 @@
       <!--        <h2>用户列表</h2>-->
       <!--      </template>-->
       <template #headerHandler>
-        <el-button type="primary">新建数据</el-button>
+        <el-button type="primary" @click="handleNewClick">新建数据</el-button>
       </template>
       <template #status="scope">
         <el-button
@@ -27,11 +27,21 @@
       <template #updateAt="scope">
         {{ $filter.formatTime(scope.row.updateAt) }}
       </template>
-      <template #handles>
-        <el-button icon="EditPen" link size="small" type="primary"
+      <template #handles="scope">
+        <el-button
+          icon="EditPen"
+          @click="handleEditClick(scope.row)"
+          link
+          size="small"
+          type="primary"
           >编辑</el-button
         >
-        <el-button icon="Delete" link size="small" type="primary"
+        <el-button
+          @click="handleDeleteClick(scope.row)"
+          icon="Delete"
+          link
+          size="small"
+          type="primary"
           >删除</el-button
         >
       </template>
@@ -77,7 +87,7 @@
 
 <script setup lang="ts">
 import BaseTable from '@/baseUI/table'
-import { ref, defineProps, defineExpose, watch } from 'vue'
+import { ref, defineProps, defineExpose, watch, defineEmits } from 'vue'
 import { getPageListData } from '@/api/main/system/system'
 
 const props = defineProps({
@@ -113,6 +123,22 @@ watch(
     deep: true
   }
 )
+
+const emits = defineEmits(['newBtnClick', 'editBtnClick'])
+// 新增
+const handleNewClick = () => {
+  emits('newBtnClick')
+}
+
+// 编辑
+const handleEditClick = (row: any) => {
+  emits('editBtnClick', row)
+}
+
+// 删除
+const handleDeleteClick = (row: any) => {
+  console.log('delete', row)
+}
 
 const otherPropSlots = props.contentConfig?.propList?.filter((item: any) => {
   if (item.slotName === 'status') return false

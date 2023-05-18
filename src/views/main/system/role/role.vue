@@ -1,8 +1,16 @@
 <template>
   <div class="role">
-    <PageSearch :searchFormConfig="roleSearchFormConfig"></PageSearch>
+    <PageSearch
+      @reset-btn-click="handleResetClick"
+      @query-btn-click="handleQueryClick"
+      :searchFormConfig="roleSearchFormConfig"
+    ></PageSearch>
     <div class="content">
-      <PageContent pageUrl="/role" :contentConfig="contentConfig"></PageContent>
+      <PageContent
+        ref="pageContentRef"
+        pageUrl="/role"
+        :contentConfig="contentConfig"
+      ></PageContent>
     </div>
   </div>
 </template>
@@ -10,6 +18,9 @@
 <script lang="ts" setup>
 import { roleSearchFormConfig } from './config/roleForm.config'
 import { contentConfig } from './config/content.config'
+import { usePageSearch } from '@/hooks/usePageSearch'
+
+const { pageContentRef, handleResetClick, handleQueryClick } = usePageSearch()
 </script>
 
 <style scoped>

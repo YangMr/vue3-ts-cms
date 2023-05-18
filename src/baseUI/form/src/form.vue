@@ -3,7 +3,7 @@
     <div class="header">
       <slot name="header"></slot>
     </div>
-    <el-form ref="form" :label-width="labelWidth">
+    <el-form ref="form" :model="formData" :label-width="labelWidth">
       <el-row>
         <template v-for="(item, index) in formItems" :key="index">
           <el-col v-bind="colLayout">
@@ -91,7 +91,11 @@ const props = defineProps({
 })
 // 深拷贝 浅拷贝
 
+console.log('props.modelValue=>', props.modelValue)
+
 const formData = ref({ ...props.modelValue })
+
+console.log('formData=>', formData)
 
 const emits = defineEmits(['update:modelValue'])
 watch(

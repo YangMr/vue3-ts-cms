@@ -21,6 +21,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'vue/multi-word-component-names': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
-    'vue/no-mutating-props': 'off'
+    'vue/no-mutating-props': 'off',
+    'vue/valid-v-model': 'off'
   }
 }

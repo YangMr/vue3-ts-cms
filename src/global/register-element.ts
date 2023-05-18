@@ -31,7 +31,8 @@ import {
   ElTable,
   ElTableColumn,
   ElPagination,
-  ElTooltip
+  ElTooltip,
+  ElDialog
 } from 'element-plus'
 const components = [
   ElButton,
@@ -65,7 +66,8 @@ const components = [
   ElTable,
   ElTableColumn,
   ElPagination,
-  ElTooltip
+  ElTooltip,
+  ElDialog
 ]
 
 export default function (app: App) {
