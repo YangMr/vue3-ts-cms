@@ -7,6 +7,7 @@ export interface IFormItems {
   otherOptions?: any
   rules?: any[]
   field: string
+  isHidden?: boolean
 }
 
 export interface IForm {

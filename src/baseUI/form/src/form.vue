@@ -8,6 +8,7 @@
         <template v-for="(item, index) in formItems" :key="index">
           <el-col v-bind="colLayout">
             <el-form-item
+              v-if="!item.isHidden"
               :label="item.label"
               :style="itemStyle"
               :rules="item.rules"
@@ -102,6 +103,7 @@ watch(
   formData,
   (newValue) => {
     console.log('newValue', newValue)
+    console.log('123')
     emits('update:modelValue', newValue)
   },
   {

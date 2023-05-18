@@ -5,6 +5,7 @@
       @query-btn-click="handleQueryClick"
       :searchFormConfig="searchFormConfig"
     ></PageSearch>
+
     <div class="content">
       <PageContent
         @editBtnClick="handleEditData"
@@ -17,6 +18,7 @@
 
     <PageModal
       ref="pageModalRef"
+      pageUrl="/users"
       :defaultInfo="defaultInfo"
       :modalFormConfig="modalFormConfig"
     />
@@ -26,41 +28,16 @@
 <script lang="ts" setup>
 import { searchFormConfig } from './config/form.config'
 import { contentConfig } from './config/content.config'
-import { usePageSearch } from '@/hooks/usePageSearch'
 import { modalFormConfig } from './config/modal.config'
-import { ref } from 'vue'
-import PageModal from '@/components/page-modal'
+
+import { usePageSearch } from '@/hooks/usePageSearch'
+import { usePageModal } from '@/hooks/usePageModal'
+import { useUserHook } from './hooks/useUserHook'
+
 const { pageContentRef, handleResetClick, handleQueryClick } = usePageSearch()
-
-const pageModalRef = ref<InstanceType<typeof PageModal>>()
-
-const defaultInfo = ref({})
-const handleEditData = (row: any) => {
-  console.log('row==>', row)
-  defaultInfo.value = { ...row }
-  if (pageModalRef.value) {
-    pageModalRef.value.dialogVisible = true
-  }
-}
-
-const handleNewData = () => {
-  defaultInfo.value = {}
-  if (pageModalRef.value) {
-    pageModalRef.value.dialogVisible = true
-  }
-}
-
-// const dialogVisible = ref(true)
-//
-// const formOrigin = ref<any>({})
-//
-// const formItems = modalFormConfig?.formItems ?? []
-
-// for (const item of formItems) {
-//   formOrigin.value[item.field] = ''
-// }
-//
-// const formData = ref(formOrigin)
+const { newCallBack, editCallBack, roleList, departmentList } = useUserHook()
+const { defaultInfo, handleEditData, handleNewData, pageModalRef } =
+  usePageModal(newCallBack, editCallBack)
 </script>
 
 <style scoped lang="less">
