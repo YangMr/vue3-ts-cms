@@ -10,7 +10,7 @@ export function usePageSearch() {
   }
 
   // 点击表单搜索触发的方法
-  const handleQueryClick = (form: any) => {
+  const handleQueryClick = (form?: any) => {
     pageContentRef.value?.getList(form)
   }
 

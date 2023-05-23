@@ -32,3 +32,10 @@ export function getDepartmentList(data: any) {
     data
   })
 }
+
+export function deletePageData(url: string) {
+  return service.request({
+    url,
+    method: 'DELETE'
+  })
+}

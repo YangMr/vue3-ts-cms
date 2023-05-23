@@ -88,7 +88,7 @@
 <script setup lang="ts">
 import BaseTable from '@/baseUI/table'
 import { ref, defineProps, defineExpose, watch, defineEmits } from 'vue'
-import { getPageListData } from '@/api/main/system/system'
+import { deletePageData, getPageListData } from '@/api/main/system/system'
 
 const props = defineProps({
   contentConfig: {
@@ -136,8 +136,14 @@ const handleEditClick = (row: any) => {
 }
 
 // 删除
-const handleDeleteClick = (row: any) => {
+const handleDeleteClick = async (row: any) => {
   console.log('delete', row)
+  try {
+    const resultData = await deletePageData(props.pageUrl + '/' + row.id)
+    await getList()
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 const otherPropSlots = props.contentConfig?.propList?.filter((item: any) => {

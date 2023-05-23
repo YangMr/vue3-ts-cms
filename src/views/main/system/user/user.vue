@@ -17,6 +17,7 @@
     </div>
 
     <PageModal
+      @action="handleQueryClick"
       ref="pageModalRef"
       pageUrl="/users"
       :defaultInfo="defaultInfo"
@@ -38,6 +39,8 @@ const { pageContentRef, handleResetClick, handleQueryClick } = usePageSearch()
 const { newCallBack, editCallBack, roleList, departmentList } = useUserHook()
 const { defaultInfo, handleEditData, handleNewData, pageModalRef } =
   usePageModal(newCallBack, editCallBack)
+roleList()
+departmentList()
 </script>
 
 <style scoped lang="less">

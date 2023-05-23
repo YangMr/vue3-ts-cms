@@ -1,8 +1,9 @@
 import { modalFormConfig } from '../config/modal.config'
-import { getDepartmentList, getRoleList } from '@/api/main/system/system'
+import { getDepartmentList } from '@/api/main/system/system'
 
-export const useUserHook = () => {
+export const useDepartmentHook = () => {
   const newCallBack = () => {
+    // departmentList()
     const item = modalFormConfig.formItems.find(
       (item) => item.field === 'password'
     )
@@ -10,31 +11,11 @@ export const useUserHook = () => {
   }
 
   const editCallBack = () => {
+    // departmentList()
     const item = modalFormConfig.formItems.find(
       (item) => item.field === 'password'
     )
     if (item) item.isHidden = true
-  }
-
-  const roleList = async () => {
-    try {
-      const resultData = await getRoleList({ offset: 0, size: 10 })
-      console.log('role', resultData)
-      const { list } = resultData.data
-
-      const role: any = modalFormConfig.formItems.find(
-        (item) => item.field === 'roleId'
-      )
-
-      role.options = list.map((item: any) => {
-        return {
-          label: item.name,
-          value: item.id
-        }
-      })
-    } catch (e) {
-      console.log(e)
-    }
   }
 
   const departmentList = async () => {
@@ -43,7 +24,7 @@ export const useUserHook = () => {
       const { list } = resultData.data
 
       const department: any = modalFormConfig.formItems.find(
-        (item) => item.field === 'departmentId'
+        (item) => item.field === 'parentId'
       )
 
       department.options = list.map((item: any) => {
@@ -60,7 +41,6 @@ export const useUserHook = () => {
   return {
     newCallBack,
     editCallBack,
-    roleList,
     departmentList
   }
 }

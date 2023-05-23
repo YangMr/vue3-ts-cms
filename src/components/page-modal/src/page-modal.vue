@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import QueryForm from '@/baseUI/form'
-import { defineProps, ref, defineExpose, watch } from 'vue'
+import { defineProps, ref, defineExpose, watch, defineEmits } from 'vue'
 import { actionPageData } from '@/api/main/system/system'
 
 const props = defineProps({
@@ -54,9 +54,10 @@ watch(
         formData.value = newValue
       }
     }
-    console.log('1111formData', formData)
   }
 )
+
+const emits = defineEmits(['action'])
 
 const handleConfirmClick = async (url: string) => {
   let method = ''
@@ -76,6 +77,8 @@ const handleConfirmClick = async (url: string) => {
   }
 
   dialogVisible.value = false
+
+  emits('action')
 }
 
 defineExpose({ dialogVisible })
